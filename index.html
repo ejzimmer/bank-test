@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <title>Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="digitalid-client-application-id" content="YOUR_CLIENT_ID">
+</head>
+
+<body>
+<h1>FakeBank</h1>
+<div id="digitalid-verify"></div>
+<div id="claims"></div>
+<div id="grant-code"></div>
+
+<script>
+  window.digitalIdAsyncInit = function () {
+    digitalId.init({
+      clientId : '123456789',
+      onLoadComplete: function () {
+        console.log('=> bank: load complete');
+      },
+      onComplete: function (msg) {
+        if (msg.error) {  // debug messages from cancelled verification which Counter Party will receive.
+          console.log('error: ' + msg.error + '\ndescription: ' + msg.error_description);
+        } else {
+          displayGrantCode(msg.code);
+          console.log('=> bank: complete. grant_code=' + msg.code);
+        }
+      }
+    });
+  };
+  
+  function displayGrantCode(grantCode) {
+    document.getElementById("grant-code").innerHTML="Grant Code Received: " + "<strong>" + grantCode + "</strong>";
+  }
+</script>
+<script async defer src="https://digitalid-testbed.getsandbox.com/sdk/app.js"></script>
+
+</body>
+
+</html>
